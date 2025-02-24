@@ -1,9 +1,17 @@
 package pl.zajavka.infrastructure.configuration;
 
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 
 import java.util.Map;
 
+@Slf4j
 public class HibernateUtil {
 
     private static final Map<String, Object> HIBERNATE_SETTINGS = Map.ofEntries(
@@ -24,4 +32,54 @@ public class HibernateUtil {
             Map.entry("hibernate.hikari.maximumPoolSize", "20"),
             Map.entry("hibernate.hikari.idleTimeout", "300000")
     );
+
+    private static final SessionFactory sessionFactory = loadSessionFactory();
+
+    private static SessionFactory loadSessionFactory() {
+        try {
+            StandardServiceRegistry standardServiceRegistry = new StandardServiceRegistryBuilder()
+                    .applySettings(HIBERNATE_SETTINGS)
+                    .applySettings(HIKARI_CP_SETTINGS)
+                    .build();
+
+            Metadata metadata = new MetadataSources(standardServiceRegistry)
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .addAnnotatedClass()
+                    .getMetadataBuilder()
+                    .build();
+
+            return metadata.getSessionFactoryBuilder().build();
+        } catch (Exception ex) {
+            log.error("Error loading session factory: {}", ex.getMessage());
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    public static void closeSessionFactory() {
+        try {
+            if (sessionFactory != null) {
+                sessionFactory.close();
+            }
+        } catch (Exception ex) {
+            log.error("Error closing session factory: {}", ex.getMessage());
+        }
+    }
+
+    public static Session getSession() {
+        try {
+            return sessionFactory.openSession();
+        } catch (Exception ex) {
+            log.error("Error getting session: {}", ex.getMessage());
+        }
+        return null;
+    }
 }
