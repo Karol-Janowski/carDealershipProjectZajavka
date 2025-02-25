@@ -3,6 +3,8 @@ package pl.zajavka.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @EqualsAndHashCode(of = "carToServiceId")
@@ -30,4 +32,7 @@ public class CarToServiceEntity {
 
     @Column(name = "year")
     private Integer year;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+    private Set<CarServiceRequestEntity> carServiceRequests;
 }

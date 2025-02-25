@@ -33,5 +33,4 @@ public class AddressEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
     private CustomerEntity customer;
-
 }

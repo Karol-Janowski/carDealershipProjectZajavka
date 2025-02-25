@@ -3,6 +3,9 @@ package pl.zajavka.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.Set;
+
 @Getter
 @Setter
 @EqualsAndHashCode(of = "serviceId")
@@ -26,5 +29,8 @@ public class ServiceEntity {
     private String description;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "service")
+    private Set<ServiceMechanicEntity> serviceMechanics;
 }
