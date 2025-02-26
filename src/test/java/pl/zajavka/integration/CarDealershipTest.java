@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import pl.zajavka.business.management.CarDealershipManagementService;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
+import pl.zajavka.infrastructure.database.repository.CarDealershipManagementRepository;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -13,7 +14,9 @@ public class CarDealershipTest {
 
     @BeforeEach
     void beforeEach() {
-        this.carDealershipManagementService = new CarDealershipManagementService();
+        this.carDealershipManagementService = new CarDealershipManagementService(
+                new CarDealershipManagementRepository()
+        );
     }
 
     @AfterAll
