@@ -2,11 +2,19 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import pl.zajavka.business.management.CarDealershipManagementService;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CarDealershipTest {
+
+    CarDealershipManagementService carDealershipManagementService;
+
+    @BeforeEach
+    void beforeEach() {
+        this.carDealershipManagementService = new CarDealershipManagementService();
+    }
 
     @AfterAll
     static void afterAll() {
