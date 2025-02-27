@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -15,7 +17,6 @@ public class InputDataCache {
 
     private static final String FILE_PATH = "./src/main/resources/car-dealership-traffic-simulation.md";
 
-    @Getter
     private static final Map<String, List<String>> inputData;
 
     static {
@@ -41,4 +42,16 @@ public class InputDataCache {
         ));
     }
 
+    public static <T> List<T> getInputData(
+            final Keys.InputDataGroup inputDataGroup,
+            final Keys.Entity entity,
+            final Function<String, T> mapper
+            ) {
+        return Optional.ofNullable(inputData.get(inputDataGroup.toString()))
+                .orElse(List.of())
+                .stream()
+                .filter(line -> line.startsWith(entity.toString()))
+                .map(mapper)
+                .toList();
+    }
 }

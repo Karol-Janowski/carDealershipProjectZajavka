@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import pl.zajavka.business.dao.management.CarDealershipManagementDAO;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CarDealershipManagementRepository implements CarDealershipManagementDAO {
@@ -28,6 +29,20 @@ public class CarDealershipManagementRepository implements CarDealershipManagemen
             session.createMutationQuery("DELETE FROM CustomerEntity ent").executeUpdate();
             session.createMutationQuery("DELETE FROM AddressEntity ent").executeUpdate();
             session.createMutationQuery("DELETE FROM SalesmanEntity ent").executeUpdate();
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void saveAll(List<?> entities) {
+        try (Session session = HibernateUtil.getSession()) {
+            if (Objects.isNull(session)) {
+                throw new IllegalStateException("Session is null");
+            }
+            session.beginTransaction();
+
+            entities.forEach(session::persist);
 
             session.getTransaction().commit();
         }
