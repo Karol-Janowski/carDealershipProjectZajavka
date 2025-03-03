@@ -5,7 +5,8 @@ public interface Keys {
      enum InputDataGroup {
         INIT,
          BUY_FIRST_TIME,
-          BUY_AGAIN
+         SERVICE_REQUEST,
+         BUY_AGAIN
      }
 
      enum Entity {
@@ -15,5 +16,9 @@ public interface Keys {
          SERVICE,
          CUSTOMER,
          PART
+     }
+
+     enum Constans {
+         WHAT
      }
 }
