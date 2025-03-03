@@ -23,22 +23,29 @@ public class CarDealershipTest {
 
     @BeforeEach
     void beforeEach() {
+
         CarDAO carDAO = new CarRepository();
         SalesmanDAO salesmanDAO = new SalesmanRepository();
         CustomerDAO customerDAO = new CustomerRepository();
         FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();
+        CustomerService customerService = new CustomerService(customerDAO);
+        CarService carService = new CarService(carDAO);
+        SalesmanService salesmanService = new SalesmanService(salesmanDAO);
+
         this.carDealershipManagementService = new CarDealershipManagementService(
                 new CarDealershipManagementRepository(),
                 fileDataPreparationService
         );
         this.carPurchaseService = new CarPurchaseService(
                 fileDataPreparationService,
-                new CustomerService(customerDAO),
-                new CarService(carDAO),
-                new SalesmanService(salesmanDAO)
+                customerService,
+                carService,
+                salesmanService
         );
         this.carserviceRequestService = new CarServiceRequestService(
-                fileDataPreparationService
+                fileDataPreparationService,
+                carService,
+                customerService
         );
     }
 
