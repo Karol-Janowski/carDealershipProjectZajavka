@@ -1,4 +1,4 @@
-package pl.zajavka.business.management;
+package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
 import pl.zajavka.business.dao.CustomerDAO;

@@ -1,9 +1,7 @@
 package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
-import pl.zajavka.business.management.CarService;
-import pl.zajavka.business.management.CustomerService;
-import pl.zajavka.business.management.FileDataPreparationService;
+import pl.zajavka.business.dao.CarServiceRequestDAO;
 import pl.zajavka.domain.CarServiceRequest;
 import pl.zajavka.infrastructure.database.entity.CarServiceRequestEntity;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
@@ -22,6 +20,7 @@ public class CarServiceRequestService {
     private final FileDataPreparationService fileDataPreparationService;
     private final CarService carService;
     private final CustomerService customerService;
+    private final CarServiceRequestDAO carServiceRequestDAO;
 
     public void requestService() {
         Map<Boolean, List<CarServiceRequest>> serviceRequests = fileDataPreparationService.createCarServiceRequests().stream()
@@ -85,5 +84,9 @@ public class CarServiceRequestService {
         CarServiceRequestEntity carServiceRequestEntity = buildCarServiceRequestEntity(request, car, customer);
         customer.addServiceRequest(carServiceRequestEntity);
         customerService.saveServiceRequest(customer);
+    }
+
+    public CarServiceRequestEntity findAnyActiveServiceRequest(String carVin) {
+        return null;
     }
 }

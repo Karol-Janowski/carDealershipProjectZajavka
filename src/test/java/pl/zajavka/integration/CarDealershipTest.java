@@ -2,12 +2,10 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import pl.zajavka.business.CarServiceProcessingService;
-import pl.zajavka.business.CarServiceRequestService;
+import pl.zajavka.business.*;
 import pl.zajavka.business.dao.CarDAO;
 import pl.zajavka.business.dao.CustomerDAO;
 import pl.zajavka.business.dao.SalesmanDAO;
-import pl.zajavka.business.management.*;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
 import pl.zajavka.infrastructure.database.repository.CarDealershipManagementRepository;
 import pl.zajavka.infrastructure.database.repository.CarRepository;

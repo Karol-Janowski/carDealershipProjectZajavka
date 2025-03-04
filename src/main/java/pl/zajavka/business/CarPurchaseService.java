@@ -1,6 +1,7 @@
-package pl.zajavka.business.management;
+package pl.zajavka.business;
 
 import lombok.AllArgsConstructor;
+import pl.zajavka.business.management.Keys;
 import pl.zajavka.infrastructure.database.entity.CarToBuyEntity;
 import pl.zajavka.infrastructure.database.entity.CustomerEntity;
 import pl.zajavka.infrastructure.database.entity.InvoiceEntity;
