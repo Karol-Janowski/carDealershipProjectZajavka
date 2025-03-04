@@ -2,6 +2,7 @@ package pl.zajavka.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import pl.zajavka.business.CarServiceProcessingService;
 import pl.zajavka.business.CarServiceRequestService;
 import pl.zajavka.business.dao.CarDAO;
 import pl.zajavka.business.dao.CustomerDAO;
@@ -20,6 +21,7 @@ public class CarDealershipTest {
     private CarDealershipManagementService carDealershipManagementService;
     private CarPurchaseService carPurchaseService;
     private CarServiceRequestService carserviceRequestService;
+    private CarServiceProcessingService carServiceProcessingService;
 
     @BeforeEach
     void beforeEach() {
@@ -36,16 +38,22 @@ public class CarDealershipTest {
                 new CarDealershipManagementRepository(),
                 fileDataPreparationService
         );
+
         this.carPurchaseService = new CarPurchaseService(
                 fileDataPreparationService,
                 customerService,
                 carService,
                 salesmanService
         );
+
         this.carserviceRequestService = new CarServiceRequestService(
                 fileDataPreparationService,
                 carService,
                 customerService
+        );
+
+        this.carServiceProcessingService = new CarServiceProcessingService(
+            fileDataPreparationService
         );
     }
 
@@ -86,6 +94,6 @@ public class CarDealershipTest {
     @Order(5)
     void printCarHistory() {
         log.info("### RUNNING ORDER 5");
-
+        carServiceProcessingService.process();
     }
 }
