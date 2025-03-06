@@ -19,6 +19,6 @@ public interface Keys {
      }
 
      enum Constants {
-         WHAT
+         FINISHED, WHAT
      }
 }

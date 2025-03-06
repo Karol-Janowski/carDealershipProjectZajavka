@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -87,6 +88,14 @@ public class CarServiceRequestService {
     }
 
     public CarServiceRequestEntity findAnyActiveServiceRequest(String carVin) {
-        return null;
+        Set<CarServiceRequestEntity> serviceRequest = carServiceRequestDAO.findActiveServiceRequestsByCarVin(carVin);
+        if (serviceRequest.size() != 1) {
+            throw new RuntimeException(
+                    "There should be only one active service request at a time, car vin: [%s]".formatted(carVin));
+        }
+        return serviceRequest.stream()
+                .findAny()
+                .orElseThrow(() -> new RuntimeException(
+                        "Could not find any service request, car vin: [%s]".formatted(carVin)));
     }
 }

@@ -3,14 +3,9 @@ package pl.zajavka.integration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import pl.zajavka.business.*;
-import pl.zajavka.business.dao.CarDAO;
-import pl.zajavka.business.dao.CustomerDAO;
-import pl.zajavka.business.dao.SalesmanDAO;
+import pl.zajavka.business.dao.*;
 import pl.zajavka.infrastructure.configuration.HibernateUtil;
-import pl.zajavka.infrastructure.database.repository.CarDealershipManagementRepository;
-import pl.zajavka.infrastructure.database.repository.CarRepository;
-import pl.zajavka.infrastructure.database.repository.CustomerRepository;
-import pl.zajavka.infrastructure.database.repository.SalesmanRepository;
+import pl.zajavka.infrastructure.database.repository.*;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -27,10 +22,19 @@ public class CarDealershipTest {
         CarDAO carDAO = new CarRepository();
         SalesmanDAO salesmanDAO = new SalesmanRepository();
         CustomerDAO customerDAO = new CustomerRepository();
+        CarServiceRequestDAO carServiceRequestDAO = new CarServiceRequestRepository();
+        MechanicDAO mechanicDAO = new MechanicRepository();
+        ServiceDAO serviceDAO = new ServiceRepository();
+        PartDAO partDAO = new PartRepository();
+        ServiceRequestProcessingDAO serviceRequestProcessingDAO = new ServiceRequestProcessingRepository();
+
         FileDataPreparationService fileDataPreparationService = new FileDataPreparationService();
+        ServiceCatalogService serviceCatalogService = new ServiceCatalogService(serviceDAO);
+        PartCatalogueService partCatalogueService = new PartCatalogueService(partDAO);
         CustomerService customerService = new CustomerService(customerDAO);
         CarService carService = new CarService(carDAO);
         SalesmanService salesmanService = new SalesmanService(salesmanDAO);
+        MechanicService mechanicService = new MechanicService(mechanicDAO);
 
         this.carDealershipManagementService = new CarDealershipManagementService(
                 new CarDealershipManagementRepository(),
@@ -47,11 +51,18 @@ public class CarDealershipTest {
         this.carserviceRequestService = new CarServiceRequestService(
                 fileDataPreparationService,
                 carService,
-                customerService
+                customerService,
+                carServiceRequestDAO
         );
 
         this.carServiceProcessingService = new CarServiceProcessingService(
-            fileDataPreparationService
+            fileDataPreparationService,
+            mechanicService,
+                carService,
+                serviceCatalogService,
+                partCatalogueService,
+                carserviceRequestService,
+                serviceRequestProcessingDAO
         );
     }
 
