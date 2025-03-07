@@ -9,7 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "carServiceRequestId")
-@ToString(of = {"carServiceRequestId", "carServiceRequestNumber", "receivedDateTime", "completedDateTime"})
+@ToString(of = {"carServiceRequestId", "carServiceRequestNumber", "receivedDateTime", "completedDateTime", "customerComment"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,9 +18,9 @@ import java.util.Set;
 public class CarServiceRequestEntity {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_service_request_id")
-    private Long carServiceRequestId;
+    private Integer carServiceRequestId;
 
     @Column(name = "car_service_request_number", unique = true)
     private String carServiceRequestNumber;
@@ -43,7 +43,7 @@ public class CarServiceRequestEntity {
     private CarToServiceEntity car;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "carServiceRequest")
-    private Set<ServiceMechanicEntity> serviceRequestItems;
+    private Set<ServiceMechanicEntity> serviceMechanics;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "carServiceRequest")
     private Set<ServicePartEntity> serviceParts;

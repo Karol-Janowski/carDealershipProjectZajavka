@@ -13,8 +13,9 @@ public class CarDealershipTest {
 
     private CarDealershipManagementService carDealershipManagementService;
     private CarPurchaseService carPurchaseService;
-    private CarServiceRequestService carserviceRequestService;
+    private CarServiceRequestService carServiceRequestService;
     private CarServiceProcessingService carServiceProcessingService;
+    private CarService carService;
 
     @BeforeEach
     void beforeEach() {
@@ -48,7 +49,7 @@ public class CarDealershipTest {
                 salesmanService
         );
 
-        this.carserviceRequestService = new CarServiceRequestService(
+        this.carServiceRequestService = new CarServiceRequestService(
                 fileDataPreparationService,
                 carService,
                 customerService,
@@ -61,8 +62,12 @@ public class CarDealershipTest {
                 carService,
                 serviceCatalogService,
                 partCatalogueService,
-                carserviceRequestService,
+                carServiceRequestService,
                 serviceRequestProcessingDAO
+        );
+
+        this.carService = new CarService(
+                carDAO
         );
     }
 
@@ -94,15 +99,23 @@ public class CarDealershipTest {
 
     @Test
     @Order(4)
-    void processServiceRequest() {
+    void makeServiceRequest() {
         log.info("### RUNNING ORDER 4");
-        carserviceRequestService.requestService();
+        carServiceRequestService.requestService();
     }
 
     @Test
     @Order(5)
-    void printCarHistory() {
+    void processServiceRequest() {
         log.info("### RUNNING ORDER 5");
         carServiceProcessingService.process();
+    }
+
+    @Test
+    @Order(6)
+    void printCarHistory() {
+        log.info("### RUNNING ORDER 6");
+        carService.printCarHistory("2C3CDYAG2DH731952");
+        carService.printCarHistory("1GCEC19X27Z109567");
     }
 }
